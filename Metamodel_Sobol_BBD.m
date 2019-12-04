@@ -22,6 +22,10 @@ MetaOpts.MetaType = 'PCE';
 
 MetaOpts.Degree = 3;
 MetaOpts.ExpDesign.NSamples = size(X,1);
+IOpts.Inference.Data = X;
+IOpts.Copula.Type = 'Independent';
+IOpts.Marginals.Type = 'auto' ;
+myInput = uq_createInput(IOpts);
 
 end
 myMetamodel = uq_createModel(MetaOpts);
@@ -32,10 +36,7 @@ SobolOpts.Type = 'Sensitivity';
 SobolOpts.Method = 'Sobol';
 SobolOpts.Sobol.Order = 1;
 
-IOpts.Inference.Data = X;
-IOpts.Copula.Type = 'Independent';
-IOpts.Marginals.Type = 'auto' ;
-myInput = uq_createInput(IOpts);
+
 
 if num ==1 
     
