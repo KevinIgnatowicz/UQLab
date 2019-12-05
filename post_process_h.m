@@ -1,9 +1,9 @@
-function post_process_h(a,n, type)   %HAX : a = 1 ; HKC : a = 2, n nombre de simulations du lot; moyenne : type = 1, max : type = 2, position max : type = 3,
-% local : type = 4; executer dans BBDesign
+function post_process_h(a, type)   %HAX : a = 1 ; HKC : a = 2; moyenne : type = 0.1, max : type = 0.2, position max : type = 0.3,
+% local : type = index du point sur la surface; executer dans BBDesign
 
 
 if a  == 1 
-        
+      n=15;  
     
 cd HAX
 
@@ -106,14 +106,14 @@ K = xlsread('K_HAX.xlsx');
 Ratio = xlsread('RATIO_HAX.xlsx');
 Scorr = xlsread('Scorr_HAX.xlsx');
 
-X = [Ratio(1:13) Scorr(1:13)];
+X = [K Ratio Scorr];
 cd ..
 cd ..
 end
 %--------------------------------------------------------------------------%
 
 if a  == 2 
-        
+       n=11; 
     
 cd HKC
 
@@ -221,15 +221,26 @@ cd ..
 cd ..
 end
 
-if type == 1
+if type == 0.1
     
     Y = H_MOY(:,1);
 end
-if type ==2
+if type == 0.2
     Y = H_MAX(:,1);
 end
-if type == 3
+if type == 0.3
     Y = POS_MAX(:,1);
 end
-  Metamodel_Sobol_BBD(X, Y, 1)  
+
+if type >=1 
+    
+    Y = H_LOCAL(:,type)
+end
+if size(X, 2)<3 
+    num = 1;
+else
+    num = 2;
+end
+
+  Metamodel_Sobol_BBD(X, Y, num)  
 end
