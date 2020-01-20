@@ -1,9 +1,9 @@
 function post_process_h(a, type)   %HAX : a = 1 ; HKC : a = 2; moyenne : type = 0.1, max : type = 0.2, position max : type = 0.3,
-% local : type = index du point sur la surface; executer dans BBDesign
+% local : type = index du point sur la surface; executer dans Full_Analysis
 
 
 if a  == 1 
-      n=15;  
+      n=190;  
     
 cd HAX
 
@@ -102,9 +102,9 @@ eval([nom_local '= H_LOCAL']);
         fclose(fid);
 cd ..
 cd Input
-K = xlsread('K_HAX.xlsx');
-Ratio = xlsread('RATIO_HAX.xlsx');
-Scorr = xlsread('Scorr_HAX.xlsx');
+K = xlsread('K_HAX_Full.xlsx');
+Ratio = xlsread('Ratio_HAX_Full.xlsx');
+Scorr = xlsread('Scorr_HAX_Full.xlsx');
 
 X = [K Ratio Scorr];
 cd ..
@@ -113,7 +113,7 @@ end
 %--------------------------------------------------------------------------%
 
 if a  == 2 
-       n=11; 
+       n=120; 
     
 cd HKC
 
@@ -212,8 +212,8 @@ eval([nom_local '= H_LOCAL']);
         fclose(fid);
 cd ..
 cd Input
-K = xlsread('K_HKC.xlsx');
-Ratio = xlsread('RATIO_HKC.xlsx');
+K = xlsread('K_HKC_Full.xlsx');
+Ratio = xlsread('Ratio_HKC_Full.xlsx');
 
 X = [K Ratio];
 
@@ -235,12 +235,7 @@ end
 if type >=1 
     
     Y = H_LOCAL(:,type)
-end
-if size(X, 2)<3 
-    num = 1;
-else
-    num = 2;
-end
-
-  Metamodel_Sobol_BBD(X, Y, num)  
+end  
+ 
+  Metamodel_PCE(X, Y)
 end
