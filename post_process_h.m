@@ -120,22 +120,22 @@ cd HKC
 mkdir h_moy
 H_MOY = zeros(n,1);
 nom_moy = 'hc_moy';
-nom_moy_txt = strcat(nom_moy, '.txt');
+nom_moy_txt = strcat(nom_moy, '.csv');
 
 mkdir h_max
 H_MAX = zeros(n,1);
 nom_max = 'hc_max';
-nom_max_txt = strcat(nom_max, '.txt');
+nom_max_txt = strcat(nom_max, '.csv');
 
 mkdir position_max
 POS_MAX = zeros(n,1);
 nom_pos = 'pos_max';
-nom_pos_txt = strcat(nom_pos, '.txt');
+nom_pos_txt = strcat(nom_pos, '.csv');
 
 mkdir h_local
 H_LOCAL = zeros(n,113);
 nom_local = 'hc_local';
-nom_local_txt = strcat(nom_local, '.txt');
+nom_local_txt = strcat(nom_local, '.csv');
 
 cd surface_flow_data_hkc
 
