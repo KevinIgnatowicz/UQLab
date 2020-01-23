@@ -23,7 +23,7 @@ nom_pos = 'pos_max';
 nom_pos_txt = strcat(nom_pos, '.csv');
 
 mkdir h_local
-H_LOCAL = zeros(n,113);
+H_LOCAL = zeros(n,100);
 nom_local = 'hc_local';
 nom_local_txt = strcat(nom_local, '.csv');
 
@@ -40,6 +40,7 @@ for i = 3:size(DIR,1)
     
     DATA(:,18)=[];
     DATA(114:end,:)=[];
+    DATA(1:13,:)=[];
     
     Surface_flow = table2array(DATA);
     
@@ -57,9 +58,9 @@ for i = 3:size(DIR,1)
     
     Surface_flow_csv = table2array(Data);
     
-    deltaPrt = Surface_flow_csv(:,7);
     
-    hc = -HF./(320-300.*(1+(0.9+deltaPrt).^(1/3)*0.2*0.2^2));
+    
+    hc = -HF./(273.15-262.04.*(1+(0.72).^(1/3)*0.2*0.2^2));
     
     
     H_MOY(i-2,1) = mean(hc(:,1));
@@ -107,6 +108,7 @@ Ratio = xlsread('Ratio_HAX_Full.xlsx');
 Scorr = xlsread('Scorr_HAX_Full.xlsx');
 
 X = [K Ratio Scorr];
+
 cd ..
 cd ..
 end
@@ -133,7 +135,7 @@ nom_pos = 'pos_max';
 nom_pos_txt = strcat(nom_pos, '.csv');
 
 mkdir h_local
-H_LOCAL = zeros(n,113);
+H_LOCAL = zeros(n,100);
 nom_local = 'hc_local';
 nom_local_txt = strcat(nom_local, '.csv');
 
@@ -150,7 +152,7 @@ for i = 3:size(DIR,1)
     
     DATA(:,18)=[];
     DATA(114:end,:)=[];
-    
+    DATA(1:13,:)=[];
     Surface_flow = table2array(DATA);
     
     X_coord= Surface_flow(:,1);
@@ -167,9 +169,9 @@ for i = 3:size(DIR,1)
     
     Surface_flow_csv = table2array(Data);
     
-    deltaPrt = Surface_flow_csv(:,7);
     
-    hc = -HF./(320-300.*(1+(0.9+deltaPrt).^(1/3)*0.2*0.2^2));
+    
+    hc = -HF./(273.15-262.04.*(1+(0.72).^(1/3)*0.2*0.2^2));
     
     
     H_MOY(i-2,1) = mean(hc(:,1));
