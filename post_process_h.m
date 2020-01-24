@@ -1,31 +1,29 @@
-function post_process_h(a, type)   %HAX : a = 1 ; HKC : a = 2; moyenne : type = 0.1, max : type = 0.2, position max : type = 0.3,
-% local : type = index du point sur la surface; executer dans Full_Analysis
+function post_process_h(a, h_or_ice, type)   
+%HAX : a = 1 ; HKC : a = 2;
+%h_or_ice = 1 : coeff convectif// moyenne : type = 0.1, max : type = 0.2, position max : type = 0.3,
+% local : type = index,  id du point sur la surface (1-100); 
+% h_or_ice = 2 : accrétion de glace// moyenne : type = 0.1, max : type =
+% 0.2, etendue : type = 0.3, local : type = index, id du point sur la
+% surface (1-10000)
+%executer dans Full_Analysis
 
 
 if a  == 1 
       n=190;  
-    
+   if h_or_ice == 1  
 cd HAX
 
 mkdir h_moy
 H_MOY = zeros(n,1);
-nom_moy = 'hc_moy';
-nom_moy_txt = strcat(nom_moy, '.csv');
 
 mkdir h_max
 H_MAX = zeros(n,1);
-nom_max = 'hc_max';
-nom_max_txt = strcat(nom_max, '.csv');
 
 mkdir position_max
 POS_MAX = zeros(n,1);
-nom_pos = 'pos_max';
-nom_pos_txt = strcat(nom_pos, '.csv');
 
 mkdir h_local
 H_LOCAL = zeros(n,100);
-nom_local = 'hc_local';
-nom_local_txt = strcat(nom_local, '.csv');
 
 cd surface_flow_data_hax
 
@@ -70,38 +68,33 @@ for i = 3:size(DIR,1)
 cd ..
 cd surface_flow_data_hax
 end
-cd ..
-eval([nom_moy '= H_MOY']);   
+cd ..   
    cd h_moy
-    output = evalc(nom_moy);
-        fid = fopen(nom_moy_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('hc_moy.xlsx', H_MOY)
    
 cd ..   
-eval([nom_max '= H_MAX']);
    cd h_max
-    output = evalc(nom_max);
-        fid = fopen(nom_max_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('hc_max.xlsx', H_MAX)
         
 cd ..   
-eval([nom_pos '= POS_MAX']);
    cd position_max
-    output = evalc(nom_pos);
-        fid = fopen(nom_pos_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('pos_max.xlsx', POS_MAX)
 
 cd ..   
-eval([nom_local '= H_LOCAL']);
    cd h_local
-    output = evalc(nom_local);
-        fid = fopen(nom_local_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('hc_local_hax.xlsx', H_LOCAL )
 cd ..
+   else
+    cd Results_ice_HAX
+    EP_MAX= xlsread('epaisseur_max.xlsx');
+    EP_MOY= xlsread('epaisseur_moy.xlsx');
+    ETENDUE= xlsread('etendue.xlsx');
+    ICE_LOCAL = xlsread('y_ice_local.xlsx');
+    ICE_LOCAL(191:192,:)=[];
+    cd ..
+    cd HAX
+   end
+    
 cd Input
 K = xlsread('K_HAX_Full.xlsx');
 Ratio = xlsread('Ratio_HAX_Full.xlsx');
@@ -116,28 +109,20 @@ end
 
 if a  == 2 
        n=120; 
-    
+    if h_or_ice == 1
 cd HKC
 
 mkdir h_moy
 H_MOY = zeros(n,1);
-nom_moy = 'hc_moy';
-nom_moy_txt = strcat(nom_moy, '.csv');
 
 mkdir h_max
 H_MAX = zeros(n,1);
-nom_max = 'hc_max';
-nom_max_txt = strcat(nom_max, '.csv');
 
 mkdir position_max
 POS_MAX = zeros(n,1);
-nom_pos = 'pos_max';
-nom_pos_txt = strcat(nom_pos, '.csv');
 
 mkdir h_local
 H_LOCAL = zeros(n,100);
-nom_local = 'hc_local';
-nom_local_txt = strcat(nom_local, '.csv');
 
 cd surface_flow_data_hkc
 
@@ -181,38 +166,33 @@ for i = 3:size(DIR,1)
 cd ..
 cd surface_flow_data_hkc
 end
-cd ..
-eval([nom_moy '= H_MOY']);   
+cd .. 
    cd h_moy
-    output = evalc(nom_moy);
-        fid = fopen(nom_moy_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('h_moy.xlsx', H_MOY)
    
 cd ..   
-eval([nom_max '= H_MAX']);
    cd h_max
-    output = evalc(nom_max);
-        fid = fopen(nom_max_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('h_max.xlsx', H_MAX)
         
 cd ..   
-eval([nom_pos '= POS_MAX']);
    cd position_max
-    output = evalc(nom_pos);
-        fid = fopen(nom_pos_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('pos_max.xlsx', POS_MAX)
 
 cd ..   
-eval([nom_local '= H_LOCAL']);
    cd h_local
-    output = evalc(nom_local);
-        fid = fopen(nom_local_txt, 'wt');
-        fwrite(fid, output);
-        fclose(fid);
+    xlswrite('h_local_hkc.xlsx', H_LOCAL)
 cd ..
+
+    else
+    cd Results_ice_HKC
+    EP_MAX= xlsread('epaisseur_max.xlsx');
+    EP_MOY= xlsread('epaisseur_moy.xlsx');
+    ETENDUE= xlsread('etendue.xlsx');
+    ICE_LOCAL = xlsread('y_ice_local.xlsx');
+    ICE_LOCAL(191:192,:)=[];
+    cd ..
+    cd HKC
+   end
 cd Input
 K = xlsread('K_HKC_Full.xlsx');
 Ratio = xlsread('Ratio_HKC_Full.xlsx');
@@ -224,19 +204,33 @@ cd ..
 end
 
 if type == 0.1
-    
+    if h_or_ice == 1
     Y = H_MOY(:,1);
+    else
+    Y = EP_MOY(:,1);
+    end
 end
 if type == 0.2
+    if h_or_ice == 1
     Y = H_MAX(:,1);
+    else
+    Y = EP_MAX(:,1);
+    end
 end
 if type == 0.3
+    if h_or_ice == 1
     Y = POS_MAX(:,1);
+    else
+    Y = ETENDUE(:,1);
+    end
 end
 
 if type >=1 
-    
+    if h_or_ice == 1
     Y = H_LOCAL(:,type)
+    else
+    Y = ICE_LOCAL(:,type)
+    end
 end  
  
   Metamodel_PCE(X, Y)
