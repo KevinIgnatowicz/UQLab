@@ -23,9 +23,16 @@ MetaOpts.Degree = 1:20;
 myMetamodel = uq_createModel(MetaOpts);
 uq_print(myMetamodel)
 uq_display(myMetamodel)
+%---------------------------------------------------------------------%
+%Evaluation of the metamodel
+%Prediction on the same input as the CFD simulations
 YPCE = uq_evalModel(myMetamodel,X);
+%Generation of a large sample of random input and evaluation
+X_LHS = uq_getSample(10000, 'LHS');
+Y_META = uq_evalModel(myMetamodel, X_LHS);
 %---------------------------------------------------------------------%
 %Visualization of the output probability distribution functions
+%Comparison with the true model
 uq_figure
 
 cmap = uq_colorOrder(2);
@@ -39,7 +46,16 @@ ylabel('Counts')
 uq_legend(...
     {'True model response', 'PCE prediction'},...
     'Location', 'northwest')
+%Visualization on the large sample
+uq_figure
 
+cmap = uq_colorOrder(2);
+uq_histogram(Y_META, 'FaceColor', cmap(1,:))
+xlabel('$\mathrm{Y_META}$')
+ylabel('Counts')
+uq_legend(...
+    {'PCE prediction'},...
+    'Location', 'northwest')
 %---------------------------------------------------------------------%
 %Visualization of the predicted vs true response
 uq_figure
@@ -68,6 +84,18 @@ uq_display(mySobolAnalysis)
 %Evaluation of the output probability distribution
 
 Output.Inference.Data = Y;
+Output.Copula.Type = 'Independent';
+Output.Marginals.Type = 'auto' ;
+myOutput = uq_createInput(Output);
+uq_print(myOutput)
+
+Output.Inference.Data = YPCE;
+Output.Copula.Type = 'Independent';
+Output.Marginals.Type = 'auto' ;
+myOutput = uq_createInput(Output);
+uq_print(myOutput)
+
+Output.Inference.Data = Y_META;
 Output.Copula.Type = 'Independent';
 Output.Marginals.Type = 'auto' ;
 myOutput = uq_createInput(Output);

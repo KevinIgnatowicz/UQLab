@@ -89,7 +89,7 @@ cd ..
     EP_MAX= xlsread('epaisseur_max.xlsx');
     EP_MOY= xlsread('epaisseur_moy.xlsx');
     ETENDUE= xlsread('etendue.xlsx');
-    ICE_LOCAL = xlsread('y_ice_local.xlsx');
+    ICE_LOCAL = xlsread('y_ice_local_hax.xlsx');
     ICE_LOCAL(191:192,:)=[];
     cd ..
     cd HAX
@@ -188,8 +188,8 @@ cd ..
     EP_MAX= xlsread('epaisseur_max.xlsx');
     EP_MOY= xlsread('epaisseur_moy.xlsx');
     ETENDUE= xlsread('etendue.xlsx');
-    ICE_LOCAL = xlsread('y_ice_local.xlsx');
-    ICE_LOCAL(191:192,:)=[];
+    ICE_LOCAL = xlsread('y_ice_local_hkc.xlsx');
+    ICE_LOCAL(121:122,:)=[];
     cd ..
     cd HKC
    end
